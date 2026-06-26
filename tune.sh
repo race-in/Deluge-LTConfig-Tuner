@@ -102,3 +102,18 @@ echo
 }
 
 main
+
+#######################################
+# Variables
+#######################################
+
+USERNAME=""
+
+CACHE_GIB=""
+CACHE_LTCONFIG=""
+
+CONFIG_DIR=""
+CONFIG_FILE=""
+BACKUP_FILE=""
+
+SERVICE_NAME=""

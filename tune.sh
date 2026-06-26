@@ -142,7 +142,10 @@ backup_ltconfig() {
 
 stop_deluge() {
 
-    systemctl stop "deluged@$USERNAME"
+if ! systemctl stop "deluged@$USERNAME"; then
+    echo -e "${RED}ERROR: Failed to stop Deluge.${RESET}"
+    exit 1
+fi
 
 }
 
@@ -159,7 +162,10 @@ install_ltconfig() {
         exit 1
     fi
 
-    cp -f "$SCRIPT_DIR/ltconfig.conf" "$CONFIG_FILE"
+if ! cp -f "$SCRIPT_DIR/ltconfig.conf" "$CONFIG_FILE"; then
+    echo -e "${RED}ERROR: Failed to install LTConfig.${RESET}"
+    exit 1
+fi
 
 }
 
@@ -169,7 +175,10 @@ install_ltconfig() {
 
 update_cache() {
 
-    sed -i "s/\"cache_size\": *[0-9]\+/\"cache_size\": $CACHE_LTCONFIG/" "$CONFIG_FILE"
+    if ! sed -i "s/\"cache_size\": *[0-9]\+/\"cache_size\": $CACHE_LTCONFIG/" "$CONFIG_FILE"; then
+    echo -e "${RED}ERROR: Failed to update cache size.${RESET}"
+    exit 1
+fi
 
 }
 
@@ -179,7 +188,10 @@ update_cache() {
 
 start_deluge() {
 
-    systemctl start "deluged@$USERNAME"
+if ! systemctl start "deluged@$USERNAME"; then
+    echo -e "${RED}ERROR: Failed to start Deluge.${RESET}"
+    exit 1
+fi
 
 }
 

@@ -106,19 +106,60 @@ BACKUP_FILE="$CONFIG_DIR/ltconfig.conf.bak"
 }
 
 #######################################
-# Main
+# Validate
 #######################################
 
-main() {
+validate_user() {
 
-banner
+    if [[ ! -d "/home/$USERNAME" ]]; then
+        echo -e "${RED}ERROR: User '$USERNAME' does not exist.${RESET}"
+        exit 1
+    fi
 
-root_check
-
-debian_check
-
-user_input
+    if [[ ! -d "$CONFIG_DIR" ]]; then
+        echo -e "${RED}ERROR: Deluge configuration not found.${RESET}"
+        exit 1
+    fi
 
 }
 
-main
+#######################################
+# Backup
+#######################################
+
+backup_ltconfig() {
+
+    if [[ -f "$CONFIG_FILE" ]]; then
+        cp -f "$CONFIG_FILE" "$BACKUP_FILE"
+        echo -e "${GREEN}Backup created:${RESET} $BACKUP_FILE"
+    fi
+
+}
+
+#######################################
+# Stop Deluge
+#######################################
+
+stop_deluge() {
+
+    systemctl stop "deluged@$USERNAME"
+
+}
+
+main() {
+
+    banner
+
+    root_check
+
+    debian_check
+
+    user_input
+
+    validate_user
+
+    backup_ltconfig
+
+    stop_deluge
+
+}

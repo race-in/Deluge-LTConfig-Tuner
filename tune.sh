@@ -3,7 +3,7 @@
 #############################################################
 # Deluge LTConfig Tuner
 #
-# Version : 1.0.0
+# Version : 0.1.0
 # Author  : race-in
 #
 # Professional Deluge LTConfig Tuner
@@ -17,7 +17,7 @@ set -e
 #######################################
 
 SCRIPT_NAME="Deluge LTConfig Tuner"
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="0.1.0"
 
 #######################################
 # Colors
@@ -32,7 +32,7 @@ WHITE='\033[1;37m'
 RESET='\033[0m'
 
 #######################################
-# Variables
+# Global Variables
 #######################################
 
 USERNAME=""
@@ -56,9 +56,9 @@ banner() {
 
     echo
     echo -e "${CYAN}============================================================${RESET}"
-    echo -e "${WHITE}               ${SCRIPT_NAME}${RESET}"
-    echo -e "${WHITE}                    Version ${SCRIPT_VERSION}${RESET}"
-    echo -e "${WHITE}        Optimized for Private Tracker Racing${RESET}"
+    echo -e "${WHITE}                 ${SCRIPT_NAME}${RESET}"
+    echo -e "${WHITE}                     Version ${SCRIPT_VERSION}${RESET}"
+    echo -e "${WHITE}         Optimized for Private Tracker Racing${RESET}"
     echo -e "${CYAN}============================================================${RESET}"
     echo
 
@@ -89,7 +89,7 @@ debian_check() {
         buster|bullseye|bookworm|trixie)
             ;;
         *)
-            echo -e "${RED}[ERROR] Unsupported Debian Version.${RESET}"
+            echo -e "${RED}[ERROR] Only Debian 10 / 11 / 12 / 13 is supported.${RESET}"
             exit 1
             ;;
     esac
@@ -108,10 +108,8 @@ main() {
 
     debian_check
 
-    echo -e "${GREEN}[ OK ] Framework Loaded Successfully.${RESET}"
+    echo -e "${GREEN}[ OK ] Framework Loaded Successfully${RESET}"
 
-    echo
-    echo "Next Step : User Input"
     echo
 
 }

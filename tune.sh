@@ -146,6 +146,43 @@ stop_deluge() {
 
 }
 
+#######################################
+# Install LTConfig
+#######################################
+
+install_ltconfig() {
+
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+    if [[ ! -f "$SCRIPT_DIR/ltconfig.conf" ]]; then
+        echo -e "${RED}ERROR: ltconfig.conf not found.${RESET}"
+        exit 1
+    fi
+
+    cp -f "$SCRIPT_DIR/ltconfig.conf" "$CONFIG_FILE"
+
+}
+
+#######################################
+# Update Cache Size
+#######################################
+
+update_cache() {
+
+    sed -i "s/\"cache_size\": *[0-9]\+/\"cache_size\": $CACHE_LTCONFIG/" "$CONFIG_FILE"
+
+}
+
+#######################################
+# Start Deluge
+#######################################
+
+start_deluge() {
+
+    systemctl start "deluged@$USERNAME"
+
+}
+
 main() {
 
     banner
@@ -162,4 +199,17 @@ main() {
 
     stop_deluge
 
+    install_ltconfig
+
+    update_cache
+
+    start_deluge
+
+    echo
+    echo -e "${GREEN}LTConfig installed successfully.${RESET}"
+    echo
+
 }
+
+main
+

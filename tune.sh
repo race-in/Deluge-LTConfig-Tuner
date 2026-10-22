@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# Deluge LTConfig Tuner v1.0.1
+# Deluge LTConfig Tuner v1.0.2
 set -Eeuo pipefail
 
 SCRIPT_NAME="Deluge LTConfig Tuner"
-SCRIPT_VERSION="1.0.1"
-RED='\033[1;31m'; GREEN='\033[1;32m'; CYAN='\033[1;36m'; WHITE='\033[1;37m'; RESET='\033[0m'
+SCRIPT_VERSION="1.0.2"
+GREEN='\033[1;32m'
+CYAN='\033[1;36m'
+WHITE='\033[1;37m'
+RESET='\033[0m'
 USERNAME=""; USER_HOME=""; CACHE_GIB=""; CACHE_LTCONFIG=""; CONFIG_DIR=""; CONFIG_FILE=""; BACKUP_FILE=""; TEMP_FILE=""; SERVICE_STOPPED=0
 
 cleanup() { [[ -z "$TEMP_FILE" ]] || rm -f -- "$TEMP_FILE"; }
@@ -30,7 +33,7 @@ banner() {
 root_check() { [[ $EUID -eq 0 ]] || { echo "ERROR: Run as root." >&2; exit 1; }; }
 debian_check() {
   local codename
-  codename="$(. /etc/os-release && printf '%s' "${VERSION_CODENAME:-}")"
+  codename="$(sed -n 's/^VERSION_CODENAME=//p' /etc/os-release | head -n 1 | tr -d '"')"
   case "$codename" in buster|bullseye|bookworm|trixie) ;; *) echo "ERROR: Only Debian 10/11/12/13 are supported." >&2; exit 1;; esac
 }
 user_input() {
